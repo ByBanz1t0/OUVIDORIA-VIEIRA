@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://ouvidoria.grupovieira.com.br/ -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Canal de Denúncias Grupo Vieira</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f8f6;
+    margin: 0;
+    color: #333;
+}
+
+header,
+footer {
+    background: #00665f;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2,
+h3 {
+    color: #00665f;
+}
+
+.section {
+    margin-top: 25px;
+    padding-top: 5px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 12px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px;
+    margin-top: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #00665f;
+    box-shadow: 0 0 0 2px rgba(0,102,95,0.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+button {
+    margin-top: 25px;
+    padding: 14px;
+    background: #00665f;
+    color: white;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #004d47;
+}
+
+button:disabled {
+    background: #777;
+    cursor: not-allowed;
+}
+
+.info {
+    background: #e0f2f1;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.comment {
+    font-size: 13px;
+    color: #555;
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+.checkbox-label input {
+    width: auto;
+    margin-top: 3px;
+}
+
+.required {
+    color: #c62828;
+}
+
+.warning {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 12px;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+footer {
+    margin-top: 40px;
+}
+
+</style>
+
+<script>
+
+/* =====================================================
+   IDENTIFICAÇÃO
+   ===================================================== */
+
+function toggleIdentificacao(valor) {
+
+    const campos = document.getElementById("identificacaoCampos");
+
+    const nome = document.getElementById("Nome");
+    const setor = document.getElementById("Setor");
+    const email = document.getElementById("Email");
+    const whatsapp = document.getElementById("WhatsApp");
+
+    if (valor === "Sim") {
+
+        campos.style.display = "block";
+
+        nome.required = true;
+        setor.required = true;
+        email.required = true;
+        whatsapp.required = true;
+
+    } else {
+
+        campos.style.display = "none";
+
+        nome.required = false;
+        setor.required = false;
+        email.required = false;
+        whatsapp.required = false;
+
+        nome.value = "";
+        setor.value = "";
+        email.value = "";
+        whatsapp.value = "";
+    }
+}
+
+
+/* =====================================================
+   TESTEMUNHAS
+   ===================================================== */
+
+function toggleTestemunha(valor) {
+
+    const campos = document.getElementById("testemunhaCampos");
+
+    const nomes = document.getElementById("Testemunhas");
+    const contatos = document.getElementById("ContatoTestemunhas");
+
+    if (valor === "Sim") {
+
+        campos.style.display = "block";
+
+        nomes.required = true;
+
+    } else {
+
+        campos.style.display = "none";
+
+        nomes.required = false;
+        contatos.required = false;
+
+        nomes.value = "";
+        contatos.value = "";
+    }
+}
+
+
+/* =====================================================
+   EVIDÊNCIAS
+   ===================================================== */
+
+function toggleEvidencia(valor) {
+
+    const campos = document.getElementById("evidenciaCampos");
+    const arquivo = document.getElementById("attachment");
+
+    if (valor === "Sim") {
+
+        campos.style.display = "block";
+
+        arquivo.required = false;
+
+    } else {
+
+        campos.style.display = "none";
+
+        arquivo.required = false;
+        arquivo.value = "";
+    }
+}
+
+
+/* =====================================================
+   REPORTOU ANTERIORMENTE
+   ===================================================== */
+
+function toggleReportado(valor) {
+
+    const campos = document.getElementById("reportadoDiv");
+    const reportadoPara = document.getElementById("ReportadoPara");
+
+    if (valor === "Sim") {
+
+        campos.style.display = "block";
+
+        reportadoPara.required = true;
+
+    } else {
+
+        campos.style.display = "none";
+
+        reportadoPara.required = false;
+
+        reportadoPara.value = "";
+    }
+}
+
+
+/* =====================================================
+   PROTEÇÃO CONTRA DUPLO CLIQUE
+   ===================================================== */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const formulario = document.getElementById("denunciaForm");
+    const botao = document.getElementById("botaoEnviar");
+
+    formulario.addEventListener("submit", function() {
+
+        if (!formulario.checkValidity()) {
+            return;
+        }
+
+        botao.disabled = true;
+        botao.innerText = "Enviando denúncia...";
+
+    });
+
+});
+
+</script>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>Canal de Denúncias</h1>
+
+</header>
+
+
+<div class="container">
+
+<!-- 
+<h2>Canal de Denúncias</h2> 
+ -->
+
+    <div class="info">
+
+	Este canal é destinado ao registro de denúncias relacionadas a assédio moral, 
+	assédio sexual, discriminação, violência, condutas 
+	inadequadas ou outras situações que possam representar violação às normas, 
+	políticas e princípios da empresa, inclusive as constantes do Código de Conduta.
+	As informações recebidas serão tratadas com confidencialidade, respeito e responsabilidade, 
+	preservando a privacidade das pessoas envolvidas e assegurar o adequado tratamento de cada relato.
+	O Canal de Denúncias está alinhado às medidas de prevenção e combate ao assédio sexual e às 
+	demais formas de violência no ambiente de trabalho, em conformidade com a Lei nº 14.457/2022, 
+	que estabelece medidas de proteção e promoção da participação e permanência das mulheres no mercado de 
+	trabalho, bem como prevê ações de prevenção e combate ao assédio e à violência no âmbito das empresas.
+	As ações de prevenção e enfrentamento ao assédio e à violência também integram as atribuições da 
+	CIPA – Comissão Interna de Prevenção de Acidentes e de Assédio, conforme previsto na legislação vigente.
+	O Canal de Denúncias observa ainda as diretrizes da Lei Geral de Proteção de Dados Pessoais – 
+	LGPD (Lei nº 13.709/2018), adotando medidas destinadas à proteção dos dados pessoais fornecidos e restringindo seu acesso às pessoas devidamente autorizadas.
+
+ 
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>Importante:</strong>
+        você pode realizar a denúncia de forma anônima.
+        Caso escolha se identificar, seus dados serão utilizados apenas
+        para eventual comunicação relacionada à denúncia.
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- FORMULÁRIO — agora envia para process.php -->
+    <!-- ================================================= -->
+
+    <form id="denunciaForm" action="http://ouvidoria.grupovieira.com.br/process.php" method="POST" enctype="multipart/form-data">
+
+
+        <!--
+            Honeypot contra robôs.
+            Usuários normais não devem preencher este campo.
+        -->
+
+        <input type="text" name="campo_verificacao" style="display:none" tabindex="-1" autocomplete="off">
+
+
+        <!-- ================================================= -->
+        <!-- 1. IDENTIFICAÇÃO -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+            <h3>1. Identificação do Denunciante (Opcional)</h3>
+
+
+            <label for="DesejaSeIdentificar">
+                Deseja se identificar?
+                <span class="required">*</span>
+            </label>
+
+
+            <select id="DesejaSeIdentificar" name="DesejaSeIdentificar" onchange="toggleIdentificacao(this.value)" required="">
+
+                <option value="">
+                    Selecione
+                </option>
+
+                <option value="Sim">
+                    Sim
+                </option>
+
+                <option value="Não (Anônimo)">
+                    Não (Anônimo)
+                </option>
+
+            </select>
+
+
+            <div id="identificacaoCampos" style="display:none;">
+
+
+                <label for="Nome">
+                    Nome
+                </label>
+
+                <input type="text" id="Nome" name="Nome" autocomplete="name">
+
+
+                <label for="Setor">
+                    Setor/Área
+                </label>
+
+                <input type="text" id="Setor" name="Setor">
+
+
+                <label for="Email">
+                    E-mail
+                </label>
+
+                <input type="email" id="Email" name="Email" autocomplete="email">
+
+
+                <label for="WhatsApp">
+                    WhatsApp
+                </label>
+
+                <input type="text" id="WhatsApp" name="WhatsApp" autocomplete="tel">
+
+
+                <p class="comment">
+
+                    Esses dados serão usados apenas para comunicação
+                    sobre a denúncia, se necessário.
+
+                </p>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 2. DENUNCIADO -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+            <h3>2. Informações do Denunciado</h3>
+
+
+            <p class="comment">
+
+                Caso não saiba alguma informação, deixe o campo em branco
+                ou descreva da melhor forma possível.
+
+            </p>
+
+
+            <label for="DenunciadoNome">
+                Nome(s)
+            </label>
+
+            <input type="text" id="DenunciadoNome" name="DenunciadoNome">
+
+
+            <label for="DenunciadoCargo">
+                Cargo(s)
+            </label>
+
+            <input type="text" id="DenunciadoCargo" name="DenunciadoCargo">
+
+
+            <label for="DenunciadoSetor">
+                Setor(es)
+            </label>
+
+            <input type="text" id="DenunciadoSetor" name="DenunciadoSetor">
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 3. DATA / LOCAL -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+            <h3>3. Data/Local do Fato</h3>
+
+
+            <label for="DataFato">
+                Data ou período
+            </label>
+
+            <input type="text" id="DataFato" name="DataFato" placeholder="Ex.: 15/09/2026 ou entre agosto e setembro">
+
+
+            <label for="LocalFato">
+                Local
+            </label>
+
+            <input type="text" id="LocalFato" name="LocalFato" placeholder="Ex.: Setor SESMT">
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 4. DESCRIÇÃO -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+            <h3>4. Descrição dos fatos</h3>
+
+
+            <p class="comment">
+
+                Descreva detalhadamente o que aconteceu.
+
+            </p>
+
+
+            <textarea id="Descricao" name="Descricao" rows="7" required="" placeholder="Descreva o ocorrido com o máximo de detalhes possível..."></textarea>
+
+
+            <p class="comment">
+
+                Inclua, se possível:
+                o que aconteceu, como aconteceu, quando aconteceu,
+                frequência, pessoas envolvidas e demais informações
+                que possam ajudar na análise.
+
+            </p>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 5. TESTEMUNHAS -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+            <h3>5. Testemunhas</h3>
+
+
+            <label for="PossuiTestemunhas">
+                Possui testemunhas?
+                <span class="required">*</span>
+            </label>
+
+
+            <select id="PossuiTestemunhas" name="PossuiTestemunhas" onchange="toggleTestemunha(this.value)" required="">
+
+                <option value="">
+                    Selecione
+                </option>
+
+                <option value="Sim">
+                    Sim
+                </option>
+
+                <option value="Não">
+                    Não
+                </option>
+
+            </select>
+
+
+            <div id="testemunhaCampos" style="display:none;">
+
+
+                <label for="Testemunhas">
+                    Nome(s)
+                </label>
+
+                <input type="text" id="Testemunhas" name="Testemunhas">
+
+
+                <label for="ContatoTestemunhas">
+                    Contato(s)
+                </label>
+
+                <input type="text" id="ContatoTestemunhas" name="ContatoTestemunhas">
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 6. EVIDÊNCIAS -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+            <h3>6. Provas ou Evidências</h3>
+
+
+            <label for="PossuiEvidencia">
+                Você possui evidência?
+                <span class="required">*</span>
+            </label>
+
+
+            <select id="PossuiEvidencia" name="PossuiEvidencia" onchange="toggleEvidencia(this.value)" required="">
+
+                <option value="">
+                    Selecione
+                </option>
+
+                <option value="Sim">
+                    Sim
+                </option>
+
+                <option value="Não">
+                    Não
+                </option>
+
+            </select>
+
+
+            <div id="evidenciaCampos" style="display:none;">
+
+
+                <label for="attachment">
+                    Anexar evidência
+                </label>
+
+
+                <input type="file" id="attachment" name="attachment" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx">
+
+
+                <p class="comment">
+
+                    Você pode anexar documentos, imagens ou outros
+                    arquivos que possam ajudar na análise (limite de 10 MB).
+
+                </p>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 7. REPORTOU ANTERIORMENTE -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+            <h3>7. Já reportou essa situação anteriormente?</h3>
+
+
+            <select id="JaReportou" name="JaReportou" onchange="toggleReportado(this.value)" required="">
+
+                <option value="">
+                    Selecione
+                </option>
+
+                <option value="Sim">
+                    Sim
+                </option>
+
+                <option value="Não">
+                    Não
+                </option>
+
+            </select>
+
+
+            <div id="reportadoDiv" style="display:none;">
+
+
+                <label for="ReportadoPara">
+                    Para quem?
+                </label>
+
+
+                <input type="text" id="ReportadoPara" name="ReportadoPara" placeholder="Ex.: Gestor, RH, Diretoria...">
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- DECLARAÇÃO -->
+        <!-- ================================================= -->
+
+        <div class="section">
+
+
+            <label class="checkbox-label">
+
+
+                <input type="checkbox" id="Declaracao" name="Declaracao" value="Aceito" required="">
+
+
+                <span>
+
+                    Declaro que as informações fornecidas são verdadeiras,
+                    conforme meu conhecimento.
+
+                </span>
+
+
+            </label>
+
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- BOTÃO -->
+        <!-- ================================================= -->
+
+        <button type="submit" id="botaoEnviar">
+
+            Enviar Denúncia
+
+        </button>
+
+
+    </form>
+
+
+</div>
+
+
+<footer>
+
+    © Grupo Vieira - Canal de Ouvidoria
+
+</footer>
+
+
+
+
+
+</body></html>
